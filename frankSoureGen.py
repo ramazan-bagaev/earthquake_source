@@ -213,16 +213,16 @@ d['x'] = float(sys.argv[4])
 d['y'] = float(sys.argv[5])
 d['z'] = float(sys.argv[6])
 
-center['x'] = float(sys.argv[7])
-center['y'] = float(sys.argv[8])
-center['z'] = float(sys.argv[9])
+center['x'] = int(sys.argv[7])
+center['y'] = int(sys.argv[8])
+center['z'] = int(sys.argv[9])
 
 param['center'] = center
 
-param['step'] = float(sys.argv[10])
+param['step'] = int(sys.argv[10])
 step = param['step']
 
-M0 = 10000
+M0 = 1000
 
 koef = M0/(2*step*step*step)
 
