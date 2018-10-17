@@ -11,7 +11,7 @@ def get_config(param):
 def get_initial():
 	text = "verbose = true\n"
 	text += "dt = 0.00125\n"
-	text += "steps = 600\n"
+	text += "steps = 501\n"
 	text += "[global]\n"
 	text += "	[mpi]\n"
 	text += "		name = RectMPIGrid\n"
@@ -33,7 +33,7 @@ def get_initial():
 	text += "		[/material]\n"
 	text += "		[factory]\n"
 	text += "			name = RectGridFactory\n"
-	text += "			size = 801, 801, 101\n"
+	text += "			size = 200, 200, 200\n"
 	text += "			origin = -2000, -2000, -1500\n"
 	text += "			spacing = 5, 5, 5\n"
 	text += "		[/factory]\n"
@@ -92,6 +92,7 @@ def get_correctors(param):
 	myz = param['myz']
 	step = param['step']
 	center = param['center']
+	r = float(step)/2
 
 	## x direction
 
@@ -100,70 +101,70 @@ def get_correctors(param):
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = -mxx
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = mxy/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 2, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 2, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = mxy/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 2, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 2, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = -mxy/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': -2, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': -2, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = -mxy/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': -2, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': -2, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = mxz/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': 2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': 2}, step), r)
 
 	f = {}
 	f['x'] = mxz/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': 2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': 2}, step), r)
 
 	f = {}
 	f['x'] = -mxz/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': -2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -1, 'y': 0, 'z': -2}, step), r)
 
 	f = {}
 	f['x'] = -mxz/4
 	f['y'] = 0
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': -2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 1, 'y': 0, 'z': -2}, step), r)
 
 	# y direction
 
@@ -172,28 +173,28 @@ def get_correctors(param):
 	f['y'] = myy
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = -myy
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = mxy/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': -1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': -1	, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = mxy/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 1	, 'z': 0}, step), r)
 
 
 	f = {}
@@ -201,14 +202,14 @@ def get_correctors(param):
 	f['y'] = -mxy/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': -1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': -1	, 'z': 0}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = -mxy/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 1	, 'z': 0}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 1	, 'z': 0}, step), r)
 
 
 	f = {}
@@ -216,14 +217,14 @@ def get_correctors(param):
 	f['y'] = myz/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': 2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': 2}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = myz/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': 2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': 2}, step), r)
 
 
 	f = {}
@@ -231,14 +232,14 @@ def get_correctors(param):
 	f['y'] = myz/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': -2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': -2}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = -myz/4
 	f['z'] = 0
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': -2}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 1	, 'z': -2}, step), r)
 
 	# z direction
 
@@ -247,70 +248,70 @@ def get_correctors(param):
 	f['y'] = 0
 	f['z'] = mzz
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 0	, 'z': 1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 0	, 'z': 1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = -mzz
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 0	, 'z': -1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 0	, 'z': -1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = mxz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 0	, 'z': -1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 0	, 'z': -1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = mxz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 0	, 'z': 1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 2, 'y': 0	, 'z': 1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = -mxz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 0	, 'z': -1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 0	, 'z': -1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = -mxz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 0	, 'z': 1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': -2, 'y': 0	, 'z': 1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = myz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 2	, 'z': -1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 2	, 'z': -1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = myz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 2	, 'z': 1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': 2	, 'z': 1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = myz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -2	, 'z': -1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -2	, 'z': -1}, step), r)
 
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
 	f['z'] = -myz/4
 
-	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -2	, 'z': 1}, step), step/2)
+	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -2	, 'z': 1}, step), r)
 	text += "		[/correctors]\n"
 	return text
 
@@ -363,7 +364,7 @@ def get_end():
 	text += "		name = StructuredVTKSaver\n"
 	text += "		path = ./vtk-frankel/%g_%s.vtk\n"
 	text += "		order = 0\n"
-	text += "		save = 100\n"
+	text += "		save = 50\n"
 	text += "		params = v\n"
 	text += "		norms = 1\n"
 	text += "	[/saver]\n"
@@ -393,9 +394,9 @@ param['center'] = center
 param['step'] = float(sys.argv[10])
 step = param['step']
 
-M0 = 10000
+M0 = 100000
 
-koef = M0/(2*step*step*step)
+koef = M0/(step*step*step)
 
 param['mxx'] = koef*2*n['x']*d['x']
 param['myy'] = koef*2*n['y']*d['y']

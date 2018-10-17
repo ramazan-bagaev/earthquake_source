@@ -24,7 +24,7 @@ def get_config(param):
 def get_initial():
 	text = "verbose = true\n"
 	text += "dt = 0.00125\n"
-	text += "steps = 600\n"
+	text += "steps = 501\n"
 	text += "[global]\n"
 	text += "	[mpi]\n"
 	text += "		name = RectMPIGrid\n"
@@ -46,7 +46,7 @@ def get_initial():
 	text += "		[/material]\n"
 	text += "		[factory]\n"
 	text += "			name = RectGridFactory\n"
-	text += "			size = 801, 801, 101\n"
+	text += "			size = 200, 200, 200\n"
 	text += "			origin = -2000, -2000, -1500\n"
 	text += "			spacing = 5, 5, 5\n"
 	text += "		[/factory]\n"
@@ -98,48 +98,49 @@ def get_correctors(param):
 	myz = param['myz']
 	step = param['step']
 	center = param['center']
+	r = float(step)/2
 
 	fxp = {}
 	fxp['x'] = mxx
 	fxp['y'] = mxy
 	fxp['z'] = mxz
 
-	text += get_corrector(fxp, get_shift_pos(center, 'x', step), step/2)
+	text += get_corrector(fxp, get_shift_pos(center, 'x', step), r)
 
 	fxn = {}
 	fxn['x'] = -mxx
 	fxn['y'] = -mxy
 	fxn['z'] = -mxz
 
-	text += get_corrector(fxn, get_shift_pos(center, 'x', -step), step/2)
+	text += get_corrector(fxn, get_shift_pos(center, 'x', -step), r)
 
 	fyp = {}
 	fyp['x'] = mxy
 	fyp['y'] = myy
 	fyp['z'] = myz
 
-	text += get_corrector(fyp, get_shift_pos(center, 'y', step), step/2)
+	text += get_corrector(fyp, get_shift_pos(center, 'y', step), r)
 
 	fyn = {}
 	fyn['x'] = -mxy
 	fyn['y'] = -myy
 	fyn['z'] = -myz
 
-	text += get_corrector(fyn, get_shift_pos(center, 'y', -step), step/2)
+	text += get_corrector(fyn, get_shift_pos(center, 'y', -step), r)
 
 	fzp = {}
 	fzp['x'] = mxz
 	fzp['y'] = myz
 	fzp['z'] = mzz
 
-	text += get_corrector(fzp, get_shift_pos(center, 'z', step), step/2)
+	text += get_corrector(fzp, get_shift_pos(center, 'z', step), r)
 
 	fzn = {}
 	fzn['x'] = -mxz
 	fzn['y'] = -myz
 	fzn['z'] = -mzz
 
-	text += get_corrector(fzn, get_shift_pos(center, 'z', -step), step/2)
+	text += get_corrector(fzn, get_shift_pos(center, 'z', -step), r)
 	text += "		[/correctors]\n"
 	return text
 
@@ -192,7 +193,7 @@ def get_end():
 	text += "		name = StructuredVTKSaver\n"
 	text += "		path = ./vtk-frankel/%g_%s.vtk\n"
 	text += "		order = 0\n"
-	text += "		save = 100\n"
+	text += "		save = 50\n"
 	text += "		params = v\n"
 	text += "		norms = 1\n"
 	text += "	[/saver]\n"
@@ -222,7 +223,7 @@ param['center'] = center
 param['step'] = int(sys.argv[10])
 step = param['step']
 
-M0 = 1000
+M0 = 100000
 
 koef = M0/(2*step*step*step)
 
