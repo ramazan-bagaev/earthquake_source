@@ -229,7 +229,7 @@ def get_correctors(param):
 
 	f = {}
 	f['x'] = 0
-	f['y'] = myz/4
+	f['y'] = -myz/4
 	f['z'] = 0
 
 	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -1	, 'z': -2}, step), r)
@@ -302,7 +302,7 @@ def get_correctors(param):
 	f = {}
 	f['x'] = 0
 	f['y'] = 0
-	f['z'] = myz/4
+	f['z'] = -myz/4
 
 	text += get_corrector(f, get_shift_pos(center, {'x': 0, 'y': -2	, 'z': -1}, step), r)
 
