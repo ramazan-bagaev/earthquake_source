@@ -396,7 +396,7 @@ step = param['step']
 
 M0 = 100000
 
-koef = M0/(step*step*step)
+koef = M0/(step*step*step*step)
 
 param['mxx'] = koef*2*n['x']*d['x']
 param['myy'] = koef*2*n['y']*d['y']
