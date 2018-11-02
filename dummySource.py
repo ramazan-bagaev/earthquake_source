@@ -16,8 +16,8 @@ def get_shift_pos(pos, dir, step):
 
 def get_config(param):
 	text = get_initial()
-	text += get_correctors(param)
-	text += get_end()
+	text += get_empty_correctors()
+	text += get_end(param)
 	return text
 
 
@@ -85,6 +85,11 @@ def get_initial():
 	text += "				side = 1\n"
 	text += "			[/filler]\n"
 	text += "		[/fillers]\n"
+	return text
+
+def get_empty_correctors():
+	text = "		[correctors]\n"
+	text += "		[/correctors]\n"
 	return text
 
 def get_correctors(param):
@@ -166,27 +171,28 @@ def get_corrector(force, pos, r):
 	text += "			[/corrector]\n"
 	return text
 
-def get_end():
+def get_end(param):
+	center = param['center']
 	text = "	[/grid]\n"
 	text += "[/grids]\n"
 	text += "[contacts]\n"
 	text += "[/contacts]\n"
 	text += "[initials]\n"
-#	[initial]
-#		name = ElasticEarthquakeInitial3D
-#		order = 0
-#		strik_angle = 45
-#		dip_angle = 45
-#		rake_angle = 45
-#		height = 50
-#		widht = 150
-#		length = 150
-#		center = 0, 0, -1150
-#		velocity_magnitude = 30
-#		[impulse]
-#			name = ConstImpulse
-#		[/impulse]
-#	[/initial]
+	text += "	[initial]\n"
+	text +=	"		name = ElasticEarthquakeInitial3D\n"
+	text += "		order = 0\n"
+	text += "		strik_angle = 270\n"
+	text += "		dip_angle = 90\n"
+	text += "		rake_angle = 0\n"
+	text += "		height = 50\n"
+	text += "		widht = 150\n"
+	text += "		length = 150\n"
+	text += "		center = " + str(center['x']) + ", " + str(center['y']) + ", " +  str(center['z']) + "\n"
+	text += "		velocity_magnitude = 400\n"
+	text += "		[impulse]\n"
+	text += "			name = ConstImpulse\n"
+	text += "		[/impulse]\n"
+	text += "	[/initial]\n"
 	text += "[/initials]\n"
 	text += "[savers]\n"
 	text += "	[saver]\n"
@@ -200,39 +206,18 @@ def get_end():
 	text += "[/savers]\n"
 	return text
 
-
-n = {}
-d = {}
 center = {}
 param = {}
 
-n['x'] = float(sys.argv[1])
-n['y'] = float(sys.argv[2])
-n['z'] = float(sys.argv[3])
-
-d['x'] = float(sys.argv[4])
-d['y'] = float(sys.argv[5])
-d['z'] = float(sys.argv[6])
-
-center['x'] = int(sys.argv[7])
-center['y'] = int(sys.argv[8])
-center['z'] = int(sys.argv[9])
+center['x'] = int(sys.argv[1])
+center['y'] = int(sys.argv[2])
+center['z'] = int(sys.argv[3])
 
 param['center'] = center
 
-param['step'] = int(sys.argv[10])
+param['step'] = int(sys.argv[4])
 step = param['step']
 
-M0 = 100000
-
-koef = M0/(2*step*step*step*step)
-
-param['mxx'] = koef*2*n['x']*d['x']
-param['myy'] = koef*2*n['y']*d['y']
-param['mzz'] = koef*2*n['z']*d['z']
-param['mxy'] = koef*(n['x']*d['y'] + n['y']*d['x'])
-param['mxz'] = koef*(n['x']*d['z'] + n['z']*d['x'])
-param['myz'] = koef*(n['y']*d['z'] + n['z']*d['y'])
 
 file = open("config", 'w')
 
