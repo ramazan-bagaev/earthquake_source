@@ -3,11 +3,11 @@ import math
 
 f = open('impulse.conf', 'w')
 begin = 0
-end = 3
+end = 1
 beginExp = 0
-endExp = 3
-m = 1.5
-sigma = 0.25
+endExp = 1
+m = 0.5
+sigma = 0.025
 delta = 0.012
 cur = begin
 while cur <= end:

@@ -3,7 +3,7 @@ import math
 
 f = open('impulse.conf', 'w')
 begin = 0
-end = 3
+end = 1
 beginExp = 0
 endExp = 3
 m = 1.5

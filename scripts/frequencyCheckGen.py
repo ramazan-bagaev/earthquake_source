@@ -17,14 +17,20 @@ def get_shift_pos(pos, dir, step):
 def get_config(param):
 	text = get_initial(param)
 	text += get_correctors(param)
-	text += get_end()
+	text += get_end(param)
 	return text
 
 
 def get_initial(param):
 	text = "verbose = true\n"
 	text += "dt = 0.012\n"
-	text += "steps = 4001\n"
+	text += "steps = 500\n"
+	text += "[global]\n"
+	text += "	[mpi]\n"
+	text += "		name = RectMPIGrid\n"
+	text += "		dims = 0, 0, 1\n"
+	text += "	[/mpi]\n"
+	text += "[/global]\n"
 	text += "[grids]\n"
 	text += "	[grid]\n"
 	text += "		id = crystalline_basement\n"
@@ -41,7 +47,7 @@ def get_initial(param):
 	text += "		[/material]\n"
 	text += "		[factory]\n"
 	text += "			name = RectGridFactory\n"
-	text += "			size = 371, 161, 71\n"
+	text += "			size = 100, 100, 200\n"
 	text += "			origin = 0, 0, 0\n"
 	text += "			spacing = " +  str(param['step']) + ", " + str(param['step']) + ", " +  str(param['step']) + "\n"
 	text += "		[/factory]\n"
@@ -136,7 +142,7 @@ def get_correctors(param):
 	fzn['z'] = -mzz
 
 	text += get_corrector(fzn, get_shift_pos(center, 'z', -step), r)
-	text += get_corrector_boundary()
+	#text += get_corrector_boundary()
 	text += "		[/correctors]\n"
 	return text
 
@@ -149,7 +155,7 @@ def get_corrector(force, pos, r):
 	text += "					name = RIFunction\n"
 	text += "					magnitude = " + str(force['x']) + ", " + str(force['y']) + ", " + str(force['z']) + "\n"
 	text += "					time_from = 0\n"
-	text += "					time_to = 3\n"
+	text += "					time_to = 1\n"
 	text += "					[region]\n"
 	text += "						name = CircleRegion\n"
 	text += "						center = " + str(pos['x']) + ", " + str(pos['y']) + ", " + str(pos['z']) + "\n"
@@ -157,8 +163,8 @@ def get_corrector(force, pos, r):
 	text += "					[/region]\n"
 	text += "					[impulse]\n"
 	text += "						name = FileImpulse\n"
-	text += "						file_name = source_earthquake/conf/impulse.conf\n"
-	text += "						points_number = 250\n"
+	text += "						file_name = source_earthquake/conf/freqImp.conf\n"
+	text += "						points_number = 84\n"
 	text += "					[/impulse]\n"
 	text += "				[/function]\n"
 	text += "			[/corrector]\n"
@@ -168,11 +174,11 @@ def get_corrector_boundary():
 	text = "			[corrector]\n"
 	text += "				name = ForceRectElasticBoundary3D\n"
 	text += "				axis = 2\n"
-	text += "				side = 1\n"
+	text += "				side = 0\n"
 	text += "			[/corrector]\n"	
 	return text
 
-def get_end():
+def get_end(params):
 	text = "	[/grid]\n"
 	text += "[/grids]\n"
 	text += "[contacts]\n"
@@ -193,60 +199,18 @@ def get_end():
 #			name = ConstImpulse
 #		[/impulse]
 #	[/initial]
-	text += "	[initial]\n"
-	text += "		order = 0\n"
-	text += "		name = RegionInitial\n"
-	text += "		[region]\n"
-	text += "			name = RectRegion\n"
-	text += "			min = 0, 0, 0\n"
-	text += "			max = 37000, 16000, 4000\n"
-	text += "		[/region]\n"
-	text += "		[data]\n"
-	text += "		[/data]\n"
-	text += "		[material]\n"
-	text += "			c1 = 5000\n"
-	text += "			c2 = 2900\n"
-	text += "			rho = 2600\n"
-	text += "		[/material]\n"
-	text += "	[/initial]\n"
-	text += "	[initial]\n"
-	text += "		order = 1\n"
-	text += "		name = RegionInitial\n"
-	text += "		[region]\n"
-	text += "			name = RectRegion\n"
-	text += "			min = 0, 0, 6050\n"
-	text += "			max = 37000, 16000, 7000\n"
-	text += "		[/region]\n"
-	text += "		[data]\n"
-	text += "		[/data]\n"
-	text += "		[material]\n"
-	text += "			c1 = 1100\n"
-	text += "			c2 = 600\n"
-	text += "			rho = 2000\n"
-	text += "		[/material]\n"
-	text += "	[/initial]\n"
 	text += "[/initials]\n"
 	text += "[savers]\n"
 	text += "	[saver]\n"
 	text += "		name = SinglePointSaver\n"
-	text += "		path = ./vtk-frankel/result_1.txt\n"
+	text += "		path = ./vtk-frankel3/result.txt\n"
 	text += "		order = 0\n"
 	text += "		save = 1\n"
 	text += "		params = vx, vy, vz\n"
 	text += "		norms = 0, 0, 0\n"
-	text += "		coord = 20000, 6000, 7000\n"
-	text += "		eps = 75\n"
+	text += "		coord = " + str(50*params['step']) + ", " + str(50*params['step']) + ", " + str(150*params['step']) + "\n"
+	text += "		eps = " + str(3*params['step']/4) + "\n"
 	text += "	[/saver]\n"
-        text += "       [saver]\n"
-        text += "               name = SinglePointSaver\n"
-        text += "               path = ./vtk-frankel/result_s.txt\n"
-        text += "               order = 0\n"
-        text += "               save = 1\n"
-        text += "               params = vx, vy, vz\n"
-        text += "               norms = 0, 0, 0\n"
-        text += "               coord = 14000, 7000, 7000\n"
-        text += "               eps = 75\n"
-        text += "       [/saver]\n"
         text += "[/savers]\n"
 
 	return text
@@ -274,7 +238,7 @@ param['center'] = center
 param['step'] = float(sys.argv[10])
 step = param['step']
 
-M0 = float(100000000000000*4/30)
+M0 = float(100000000000)
 
 koef = float(M0/(2*step*step*step))
 

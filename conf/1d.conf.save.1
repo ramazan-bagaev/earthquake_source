@@ -229,8 +229,26 @@ steps = 4001
 		save = 1
 		params = vx, vy, vz
 		norms = 0, 0, 0
-		coord = 20000, 6300, 7000
+		coord = 20000, 6000, 7000
 		eps = 75
+	[/saver]
+	[saver]
+		name = SinglePointSaver
+                path = ./vtk-frankel/result_1_2.txt
+                order = 0
+                save = 1
+                params = vx, vy, vz
+                norms = 0, 0, 0
+                coord = 20000, 5900, 7000
+                eps = 75name = SinglePointSaver
+                path = ./vtk-frankel/result_1.txt
+                order = 0
+                save = 1
+                params = vx, vy, vz
+                norms = 0, 0, 0
+                coord = 20000, 6000, 7000
+                eps = 75
+
 	[/saver]
        [saver]
                name = SinglePointSaver
